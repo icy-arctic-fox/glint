@@ -20,8 +20,8 @@ WORKDIR /src
 COPY shard.yml ./
 RUN shards install
 COPY . .
-RUN shards build spec --debug
+RUN shards build specs --debug
 
 FROM base AS spec
-COPY --from=spec-builder /src/bin/spec /spec
-CMD ["/spec"]
+COPY --from=spec-builder /src/bin/specs /specs
+CMD ["/specs"]
