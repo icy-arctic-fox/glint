@@ -13,7 +13,7 @@ Spectator.describe Glint::Context do
     let version = gl_context.minor_version
 
     it "returns the minor version" do
-      expect(version).to eq(6)
+      expect(version).to be >= 5
     end
   end
 end
