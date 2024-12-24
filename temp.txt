@@ -1,0 +1,85 @@
+Context
+
+module Contextual
+  private abstract context : Context
+  
+  @[AlwaysInline]
+  private def gl
+    context.gl
+  end
+  
+  private macro context_getter(parameter)
+    gl.get_integer...
+  end
+end
+
+alias Name = LibGL::UInt
+
+# glWaitSync is server-side and not used/provided.
+struct Fence
+  include Contextual
+
+  private getter context : Context
+  getter name : Name
+  
+  context_getter MAX_SERVER_WAIT_TIMEOUT : Int64
+
+  def initialize(@context : Context, @name : Name)
+  end
+
+  def self.new(context : Context)
+    name = context.gl.fence_sync(SYNC_GPU_COMMANDS_COMPLETE, 0)
+    new(context, name)
+  end
+  
+  def exists?
+    self.class.exists?(@context, @name)
+  end
+   
+  def self.exists?(context, name)
+    context.gl.is_sync(name)
+  end
+  
+  def sync
+    gl.client_wait_sync(@name)
+  end
+  
+  def sync(timeout : Time::Span)
+  end
+  
+  def sync!(timeout : Time::Span)
+  end
+  
+  def self.sync(context, &)
+    fence = new(context)
+    begin
+      yield fence
+      fence.sync
+    ensure
+      fence.delete
+    end
+  end
+  
+  def self.sync(context, timeout : Time::Span, &)
+  end
+  
+  def delete
+    gl.delete_sync(@name)
+  end
+  
+  def to_unsafe
+    @name
+  end
+end
+
+Context.delegate Fence.sync(...)
+# produces:
+class Context
+  def sync(...)
+    Fence.sync(self, ...)
+  end
+end
+
+# Command objects? Probably too many, not a good design.
+# Blocks or command lists, some time of representation.
+# BufferStorage - call the method "upload"

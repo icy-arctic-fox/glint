@@ -1,0 +1,24 @@
+name: glint-examples
+version: 0.1.0
+
+authors:
+  - Michael Miller <icy.arctic.fox@gmail.com>
+
+crystal: ">= 1.14.0, < 2.0.0"
+
+license: MIT
+
+targets:
+  gl-info:
+    main: src/gl_info.cr
+
+dependencies:
+  glfw:
+    github: "icy-arctic-fox/glfw.cr"
+    version: ~> 3.3.3
+  glint:
+    path: ../
+
+libraries:
+  opengl: ~> 4.6
+  glfw3: ~> 3.3.3

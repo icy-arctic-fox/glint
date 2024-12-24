@@ -16,12 +16,12 @@ FROM crystallang/crystal:1.14-alpine AS spec-builder
 RUN apk add --no-cache \
   glfw
 
-WORKDIR /src
+WORKDIR /app
 COPY shard.yml ./
 RUN shards install
 COPY . .
 RUN shards build specs --debug
 
 FROM base AS spec
-COPY --from=spec-builder /src/bin/specs /specs
+COPY --from=spec-builder /app/bin/specs /specs
 CMD ["/specs"]

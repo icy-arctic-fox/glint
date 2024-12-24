@@ -1,0 +1,14 @@
+version: 2.0
+shards:
+  glfw:
+    git: https://github.com/icy-arctic-fox/glfw.cr.git
+    version: 3.3.3
+
+  glint:
+    path: ../
+    version: 0.1.0
+
+  opengl:
+    git: https://gitlab.com/arctic-fox/opengl.cr.git
+    version: 4.6.0+git.commit.656013dd7a5f5bb9ff83f4cb0493be4f34e6f903
+
