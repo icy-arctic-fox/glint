@@ -2,6 +2,7 @@ FROM alpine:3.21 AS base
 
 RUN apk add --no-cache \
   gc \
+  glfw \
   mesa-dri-gallium \
   mesa-utils \
   pcre2 \
@@ -14,7 +15,7 @@ CMD ["glxinfo"]
 FROM crystallang/crystal:1.14-alpine AS spec-builder
 
 RUN apk add --no-cache \
-  glfw
+  glfw-dev
 
 WORKDIR /app
 COPY shard.yml ./

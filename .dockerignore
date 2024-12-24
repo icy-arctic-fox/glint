@@ -1,6 +1,7 @@
 .*
 bin/
 lib/
+examples/
 Dockerfile
 LICENSE
 README.md
