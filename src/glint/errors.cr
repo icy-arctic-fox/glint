@@ -1,0 +1,65 @@
+module Glint
+  abstract class GlintError < Exception
+  end
+
+  abstract class OpenGLError < GlintError
+  end
+
+  class InvalidEnumError < OpenGLError
+  end
+
+  class InvalidValueError < OpenGLError
+  end
+
+  class InvalidOperationError < OpenGLError
+  end
+
+  class OutOfMemoryError < OpenGLError
+  end
+
+  class InvalidFramebufferOperationError < OpenGLError
+  end
+
+  class StackUnderflowError < OpenGLError
+  end
+
+  class StackOverflowError < OpenGLError
+  end
+
+  module Errors
+    # Retrieves the pending OpenGL error.
+    # Returns `nil` if no error has occurred.
+    # After returning an error, it is cleared.
+    #
+    # NOTE: If multiple errors have occurred, only the first error will be returned.
+    #   Subsequent errors will be ignored/dropped.
+    def error : OpenGLError?
+      code = gl.get_error.to_i32!
+      name = LibGL::ErrorCode.new(code)
+      case name
+      in .no_error?                      then nil
+      in .invalid_enum?                  then InvalidEnumError.new
+      in .invalid_value?                 then InvalidValueError.new
+      in .invalid_operation?             then InvalidOperationError.new
+      in .out_of_memory?                 then OutOfMemoryError.new
+      in .invalid_framebuffer_operation? then InvalidFramebufferOperationError.new
+      in .stack_underflow?               then StackUnderflowError.new
+      in .stack_overflow?                then StackOverflowError.new
+      end
+    end
+
+    # Executes a block of code and checks for OpenGL errors.
+    # Raises the first error encountered if any occur.
+    # Returns the result of the block, if no errors occur.
+    #
+    # NOTE: Only one OpenGL function that can raise an error should be called per block.
+    #   If multiple functions are called, only the first error will be raised.
+    def with_error_checking(&)
+      yield
+    ensure
+      error.try { |e| raise e }
+    end
+
+    abstract def gl
+  end
+end
