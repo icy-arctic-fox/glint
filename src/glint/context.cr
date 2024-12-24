@@ -1,20 +1,14 @@
 require "opengl"
+require "./parameters"
 
 module Glint
   class Context
+    include Parameters
+
+    gl_parameter major_version : Int32 = MajorVersion
+    gl_parameter minor_version : Int32 = MinorVersion
+
     def initialize(@delegate : Delegate)
-    end
-
-    def major_version
-      major = uninitialized LibGL::Int
-      gl.get_integer_v(LibGL::GetPName::MajorVersion, pointerof(major))
-      major
-    end
-
-    def minor_version
-      minor = uninitialized LibGL::Int
-      gl.get_integer_v(LibGL::GetPName::MinorVersion, pointerof(minor))
-      minor
     end
 
     def gl
