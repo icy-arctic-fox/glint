@@ -31,9 +31,19 @@ private def create_context
   {context, window}
 end
 
-private def destroy_context(window)
+private def destroy_context(context, window)
+  # GLFW with Mesa (via Docker) might have an issue with termination.
+  # This has caused segfaults, so explicit cleanup is skipped for Mesa.
+  return if mesa?(context)
+
   LibGLFW.destroy_window(window)
   LibGLFW.terminate
+end
+
+private def mesa?(context)
+  c_str = context.gl.get_string(LibGL::StringName::Vendor)
+  vendor = String.new(c_str)
+  vendor == "Mesa"
 end
 
 Spectator.configure do |config|
@@ -42,7 +52,7 @@ Spectator.configure do |config|
   end
 
   config.after_suite do
-    _, window = CONTEXT_STORE.pop
-    destroy_context(window)
+    context, window = CONTEXT_STORE.pop
+    destroy_context(context, window)
   end
 end
