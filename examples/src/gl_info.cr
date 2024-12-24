@@ -1,4 +1,5 @@
 require "glfw"
+require "glint"
 require "opengl"
 
 if LibGLFW.init == LibGLFW::Bool::False
@@ -19,12 +20,8 @@ loader = OpenGL::Loader.new do |name|
   LibGLFW.get_proc_address(name)
 end
 
-get_integer_v = loader.get_integer_v!
-
-major = 0
-minor = 0
-get_integer_v.call(LibGL::GetPName::MajorVersion, pointerof(major))
-get_integer_v.call(LibGL::GetPName::MinorVersion, pointerof(minor))
+context = Glint::Context.new(Glint::Context::Delegate.new(loader))
+major, minor = context.major_version, context.minor_version
 puts "OpenGL version: #{major}.#{minor}"
 
 LibGLFW.destroy_window(window)
