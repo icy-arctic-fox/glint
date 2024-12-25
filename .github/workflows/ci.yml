@@ -37,11 +37,15 @@ jobs:
           - "1.12"
         os:
           - ubuntu-latest
-          - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
       - name: Download source code
         uses: actions/checkout@v4
+      - name: Install system dependencies
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: glfw-dev mesa-dri-gallium xvfb
+          version: 1.0
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
