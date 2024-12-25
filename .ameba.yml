@@ -1,0 +1,28 @@
+Globs:
+  - "**/*.cr"
+  - "!lib"
+  - "!examples/lib"
+
+Excluded:
+  - test.cr
+
+# Disabling this rule to avoid false positives caused by:
+# https://github.com/crystal-ameba/ameba/issues/447
+Lint/UselessAssign:
+  Description: Disallows useless variable assignments
+  ExcludeTypeDeclarations: false
+  Excluded:
+    - src/glint/context.cr
+  Enabled: true
+  Severity: Warning
+
+# TODOs are fine while the shard is developed.
+Documentation/DocumentationAdmonition:
+  Description: Reports documentation admonitions
+  Timezone: UTC
+  Admonitions:
+    - TODO
+    - FIXME
+    - BUG
+  Enabled: false
+  Severity: Warning
