@@ -11,7 +11,7 @@ module Glint
     end
 
     struct Delegate < AbstractDelegate
-      def gl
+      protected def gl
         self
       end
 
@@ -22,7 +22,7 @@ module Glint
     end
 
     struct ErrorCheckingDelegate < AbstractDelegate
-      def gl
+      protected def gl
         Delegate.new(@loader)
       end
 

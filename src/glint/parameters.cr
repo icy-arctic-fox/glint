@@ -62,6 +62,8 @@ module Glint
       end
     end
 
-    abstract def gl
+    # Returns the OpenGL delegate.
+    # This delegate is used to call OpenGL functions to retrieve parameters.
+    protected abstract def gl
   end
 end

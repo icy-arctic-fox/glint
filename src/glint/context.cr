@@ -30,7 +30,9 @@ module Glint
       new(delegate)
     end
 
-    def gl
+    # Returns the OpenGL delegate.
+    # This is used to call OpenGL functions within this context.
+    protected def gl
       @delegate
     end
   end

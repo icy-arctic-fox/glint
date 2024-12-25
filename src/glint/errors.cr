@@ -63,6 +63,9 @@ module Glint
       error.try { |e| raise e }
     end
 
-    abstract def gl
+    # Returns the OpenGL delegate.
+    # This delegate *must not* perform error checking,
+    # otherwise it may cause infinite recursion.
+    protected abstract def gl
   end
 end
