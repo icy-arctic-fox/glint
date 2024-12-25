@@ -44,7 +44,7 @@ jobs:
       - name: Install system dependencies
         uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          packages: glfw-dev mesa-dri-gallium xvfb
+          packages: libglfw3-dev xvfb-run # TODO: Mesa?
           version: 1.0
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
@@ -59,4 +59,4 @@ jobs:
       - name: Install shards
         run: shards update --ignore-crystal-version
       - name: Run tests
-        run: crystal spec --order=random --error-on-warnings
+        run: xvfb-run -e /dev/stderr -- crystal spec --order=random --error-on-warnings
