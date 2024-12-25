@@ -24,9 +24,7 @@ private def create_context
   loader = OpenGL::Loader.new do |name|
     LibGLFW.get_proc_address(name)
   end
-
-  delegate = Glint::Context::Delegate.new(loader)
-  context = Glint::Context.new(delegate)
+  context = Glint::Context.new(loader)
 
   {context, window}
 end

@@ -54,8 +54,11 @@ module Glint
     #
     # NOTE: Only one OpenGL function that can raise an error should be called per block.
     #   If multiple functions are called, only the first error will be raised.
+    #
+    # The OpenGL delegate is provided as the first argument to the block.
+    # This allows for syntactic sugar like `gl.with_error_checking &.clear_color(0.0, 0.0, 0.0, 1.0)`.
     def with_error_checking(&)
-      yield
+      yield gl
     ensure
       error.try { |e| raise e }
     end
