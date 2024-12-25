@@ -7,6 +7,9 @@ module Glint
 
     gl_parameter major_version : Int32 = MajorVersion
     gl_parameter minor_version : Int32 = MinorVersion
+    gl_parameter vendor : String = Vendor
+    gl_parameter renderer : String = Renderer
+    gl_parameter version : String = Version
 
     # Use of `AbstractDelegate` is avoided to reduce dispatch overhead.
     {% if flag?(:release) && !flag?(:gl_error_checking) %}
