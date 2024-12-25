@@ -1,6 +1,8 @@
 require "../spec_helper"
 
 Spectator.describe Glint::Context do
+  let gl_context = TestOpenGLScaffold.context
+
   describe "#major_version" do
     let version = gl_context.major_version
 
