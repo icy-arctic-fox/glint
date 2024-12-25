@@ -3,14 +3,14 @@ require "../errors"
 
 module Glint
   struct Context
-    abstract struct AbstractDelegate
+    private abstract struct AbstractDelegate
       include Errors
 
       def initialize(@loader : OpenGL::Loader)
       end
     end
 
-    struct Delegate < AbstractDelegate
+    private struct Delegate < AbstractDelegate
       protected def gl
         self
       end
@@ -21,7 +21,7 @@ module Glint
       end
     end
 
-    struct ErrorCheckingDelegate < AbstractDelegate
+    private struct ErrorCheckingDelegate < AbstractDelegate
       protected def gl
         Delegate.new(@loader)
       end
