@@ -2,6 +2,9 @@ module Glint
   abstract class GlintError < Exception
   end
 
+  class ShaderCompilationError < GlintError
+  end
+
   abstract class OpenGLError < GlintError
   end
 
