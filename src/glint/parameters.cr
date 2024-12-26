@@ -21,6 +21,9 @@ module Glint
     #
     # The supported types are `Int32`, `Int64`, `Float32`, `Float64`, `Bool`, and `String`.
     #
+    # The boolean type `Bool` is adds a question mark to the method name.
+    # For example, `gl_parameter blend : Bool = Blend` will create a method named `blend?`.
+    #
     # See: https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGet.xhtml
     macro gl_parameter(param)
       {%
@@ -48,11 +51,16 @@ module Glint
                       but got #{param_type}."
                   end
       %}
-      def {{param.var}} : {{param.type}}
+      def {{param_type == Bool ? param.var + '?' : param.var}} : {{param.type}}
         {% if param_type == String %}
           pname = LibGL::StringName::{{param.value}}
           c_str = gl.{{gl_proc.id}}(pname)
           String.new(c_str)
+        {% elsif param_type == Bool %}
+          pname = LibGL::GetPName::{{param.value}}
+          value = uninitialized LibGL::Boolean
+          gl.{{gl_proc.id}}(pname, pointerof(value))
+          value == LibGL::Boolean::True
         {% else %}
           pname = LibGL::GetPName::{{param.value}}
           value = uninitialized {{param.type}}
