@@ -13,6 +13,7 @@ Lint/UselessAssign:
   ExcludeTypeDeclarations: false
   Excluded:
     - src/glint/context.cr
+    - src/glint/shaders_interface.cr
   Enabled: true
   Severity: Warning
 
