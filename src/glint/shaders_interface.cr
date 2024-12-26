@@ -7,12 +7,12 @@ module Glint
     include Contextual
     include Parameters
 
+    gl_parameter language_version : String = ShadingLanguageVersion
+
     getter context : Context
 
     def initialize(@context : Context)
     end
-
-    gl_parameter language_version : String = ShadingLanguageVersion
   end
 
   Context.def_interface shaders : ShadersInterface
