@@ -35,6 +35,25 @@ module Glint
     protected def gl
       @delegate
     end
+
+    macro def_interface(interface, &block)
+      {%
+        raise "Invalid context interface declaration, \
+        syntax for `Context.def_interface` is `Context.def_interface name : Type`" if !interface.is_a?(TypeDeclaration)
+      %}
+      module ::Glint
+        class Context
+          getter {{interface.var}} : {{interface.type}} do
+            {% if block %}
+              {% unless block.args.empty? %}{{block.args.first}} = self{% end %}
+              {{block.body}}
+            {% else %}
+              {{interface.type}}.new(self)
+            {% end %}
+          end
+        end
+      end
+    end
   end
 end
 
