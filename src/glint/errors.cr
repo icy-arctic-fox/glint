@@ -63,6 +63,16 @@ module Glint
       error.try { |e| raise e }
     end
 
+    # Executes a block of code without error checking.
+    # Returns the result of the block.
+    # This method should only be used with OpenGL functions that are known to not raise errors.
+    #
+    # The OpenGL delegate is provided as the first argument to the block.
+    # This allows for syntactic sugar like `gl.without_error_checking &.is_shader(name)`.
+    def without_error_checking(&)
+      yield gl
+    end
+
     # Returns the OpenGL delegate.
     # This delegate *must not* perform error checking,
     # otherwise it may cause infinite recursion.
