@@ -1,3 +1,4 @@
+require "opengl"
 require "./context"
 require "./contextual"
 
@@ -21,7 +22,11 @@ module Glint
 
     def self.new(context : Context, type : Type)
       name = context.gl.create_shader(type.to_gl)
-      Shader.new(context, name)
+      new(context, name)
+    end
+
+    def exists?
+      gl.without_error_checking &.is_shader(@name) == LibGL::Boolean::True
     end
   end
 end
