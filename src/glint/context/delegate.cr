@@ -2,7 +2,7 @@ require "opengl"
 require "../errors"
 
 module Glint
-  struct Context
+  class Context
     private abstract struct AbstractDelegate
       include Errors
 

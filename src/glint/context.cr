@@ -2,7 +2,7 @@ require "opengl"
 require "./parameters"
 
 module Glint
-  struct Context
+  class Context
     include Parameters
 
     gl_parameter major_version : Int32 = MajorVersion
