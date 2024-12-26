@@ -14,4 +14,11 @@ Spectator.describe Glint::ShadersInterface do
       expect(version).to match(/4.[5-9]0/)
     end
   end
+
+  describe "#create" do
+    it "creates a shader" do
+      shader = shaders.create(:vertex)
+      expect(shader).to be_a(Glint::Shader)
+    end
+  end
 end

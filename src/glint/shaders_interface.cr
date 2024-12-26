@@ -1,6 +1,7 @@
 require "./context"
 require "./contextual"
 require "./parameters"
+require "./shader"
 
 module Glint
   struct ShadersInterface
@@ -12,6 +13,10 @@ module Glint
     getter context : Context
 
     def initialize(@context : Context)
+    end
+
+    def create(type : Shader::Type)
+      Shader.new(@context, type)
     end
   end
 
