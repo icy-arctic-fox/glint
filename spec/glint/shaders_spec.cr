@@ -14,7 +14,7 @@ Spectator.describe Glint::Shaders do
   describe "#create_shader" do
     it "creates a shader" do
       shader = gl_context.create_shader(:vertex)
-      expect(shader).to be_a(Glint::Shader)
+      expect(shader.exists?).to be_true
     end
   end
 end
