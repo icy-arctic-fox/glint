@@ -10,8 +10,12 @@ module Glint
     include TypeUtils
 
     enum Type : LibGL::UInt
-      Vertex   = LibGL::ShaderType::VertexShader
-      Fragment = LibGL::ShaderType::FragmentShader
+      Vertex                 = LibGL::ShaderType::VertexShader
+      Geometry               = LibGL::ShaderType::GeometryShader
+      TessellationEvaluation = LibGL::ShaderType::TessEvaluationShader
+      TessellationControl    = LibGL::ShaderType::TessControlShader
+      Fragment               = LibGL::ShaderType::FragmentShader
+      Compute                = LibGL::ShaderType::ComputeShader
 
       def to_gl : LibGL::ShaderType
         LibGL::ShaderType.new(value)
