@@ -2,10 +2,12 @@ require "opengl"
 require "./context"
 require "./contextual"
 require "./errors"
+require "./type_utils"
 
 module Glint
   struct Shader
     include Contextual
+    include TypeUtils
 
     enum Type : LibGL::UInt
       Vertex   = LibGL::ShaderType::VertexShader
@@ -38,7 +40,7 @@ module Glint
     def deleted?
       value = uninitialized LibGL::Int
       gl.get_shader_iv(@name, LibGL::ShaderParameterName::DeleteStatus, pointerof(value))
-      value == LibGL::Boolean::True
+      from_gl_bool(value)
     end
 
     def type : Type
@@ -86,7 +88,7 @@ module Glint
     def compiled?
       value = uninitialized LibGL::Int
       gl.get_shader_iv(@name, LibGL::ShaderParameterName::CompileStatus, pointerof(value))
-      value != 0
+      from_gl_bool(value)
     end
 
     def info_log
