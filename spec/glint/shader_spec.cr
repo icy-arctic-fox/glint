@@ -48,11 +48,11 @@ Spectator.describe Shader do
   end
 
   describe "#deleted?" do
-    it "returns true if the shader is deleted", skip: "Requires Program to be implemented" do
+    it "returns true if the shader is deleted" do
       # To get into a deleted state, the shader must be in use when deleted.
       shader = Shader.new(gl_context, :vertex)
-      # program = Program.new(gl_context)
-      # program.attach_shader(shader)
+      program = Glint::Program.new(gl_context)
+      program.attach(shader)
       shader.delete
       expect(shader.deleted?).to be_true
     end

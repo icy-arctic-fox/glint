@@ -17,4 +17,11 @@ Spectator.describe Glint::Shaders do
       expect(shader.exists?).to be_true
     end
   end
+
+  describe "#create_program" do
+    it "creates a program" do
+      program = gl_context.create_program
+      expect(program.exists?).to be_true
+    end
+  end
 end

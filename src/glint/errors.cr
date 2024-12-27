@@ -5,6 +5,9 @@ module Glint
   class ShaderCompilationError < Error
   end
 
+  class ProgramLinkError < Error
+  end
+
   abstract class OpenGLError < Error
   end
 
