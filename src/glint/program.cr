@@ -77,12 +77,16 @@ module Glint
       from_gl_bool(value)
     end
 
-    def attach(shader : Shader) : Nil
-      gl.attach_shader(@name, shader.name)
+    def attach(*shaders : Shader) : Nil
+      shaders.each do |shader|
+        gl.attach_shader(@name, shader.name)
+      end
     end
 
-    def detach(shader : Shader) : Nil
-      gl.detach_shader(@name, shader.name)
+    def detach(*shaders : Shader) : Nil
+      shaders.each do |shader|
+        gl.detach_shader(@name, shader.name)
+      end
     end
 
     def shaders : ShadersInterface

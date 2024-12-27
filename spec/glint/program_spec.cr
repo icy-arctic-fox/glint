@@ -81,6 +81,13 @@ Spectator.describe Program do
       program.attach(vertex_shader)
       expect(program.shaders).to contain(vertex_shader)
     end
+
+    it "attaches multiple shaders to the program" do
+      program = Program.new(gl_context)
+      program.attach(vertex_shader, fragment_shader)
+      expect(program.shaders).to contain(vertex_shader)
+      expect(program.shaders).to contain(fragment_shader)
+    end
   end
 
   describe "#detach" do
@@ -89,6 +96,14 @@ Spectator.describe Program do
       program.attach(vertex_shader)
       program.detach(vertex_shader)
       expect(program.shaders).not_to contain(vertex_shader)
+    end
+
+    it "detaches multiple shaders from the program" do
+      program = Program.new(gl_context)
+      program.attach(vertex_shader, fragment_shader)
+      program.detach(vertex_shader, fragment_shader)
+      expect(program.shaders).not_to contain(vertex_shader)
+      expect(program.shaders).not_to contain(fragment_shader)
     end
   end
 
