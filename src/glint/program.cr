@@ -2,6 +2,7 @@ require "opengl"
 require "./context"
 require "./contextual"
 require "./errors"
+require "./shader"
 require "./type_utils"
 
 module Glint
@@ -10,6 +11,46 @@ module Glint
   struct Program
     include Contextual
     include TypeUtils
+
+    struct ShadersInterface
+      include Contextual
+      include Enumerable(Shader)
+
+      getter context : Context
+      private getter name : LibGL::UInt
+
+      def initialize(@context : Context, @name : LibGL::UInt)
+      end
+
+      def <<(shader : Shader) : self
+        gl.attach_shader(@name, shader.name)
+        self
+      end
+
+      def each(& : Shader ->)
+        names.each do |name|
+          yield Shader.new(@context, name)
+        end
+      end
+
+      def to_a : Array(Shader)
+        names.to_a do |name|
+          Shader.new(@context, name)
+        end
+      end
+
+      def size
+        value = uninitialized LibGL::Int
+        gl.get_program_iv(@name, ProgramPName::AttachedShaders, pointerof(value))
+        value
+      end
+
+      private def names
+        names = Slice(LibGL::UInt).new(size, read_only: true)
+        gl.get_attached_shaders(@name, size, Pointer(Int32).null, names.to_unsafe)
+        names
+      end
+    end
 
     getter context : Context
     getter name : LibGL::UInt
@@ -40,9 +81,12 @@ module Glint
       gl.attach_shader(@name, shader.name)
     end
 
-    def <<(shader : Shader) : self
-      attach(shader)
-      self
+    def detach(shader : Shader) : Nil
+      gl.detach_shader(@name, shader.name)
+    end
+
+    def shaders : ShadersInterface
+      ShadersInterface.new(@context, @name)
     end
 
     def link : Bool
@@ -73,6 +117,10 @@ module Glint
       value = uninitialized LibGL::Int
       gl.get_program_iv(@name, ProgramPName::InfoLogLength, pointerof(value))
       value
+    end
+
+    def use : Nil
+      gl.use_program(@name)
     end
 
     def to_unsafe
