@@ -1,11 +1,11 @@
 module Glint
-  abstract class GlintError < Exception
+  abstract class Error < Exception
   end
 
-  class ShaderCompilationError < GlintError
+  class ShaderCompilationError < Error
   end
 
-  abstract class OpenGLError < GlintError
+  abstract class OpenGLError < Error
   end
 
   class InvalidEnumError < OpenGLError
