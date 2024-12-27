@@ -122,19 +122,15 @@ Spectator.describe Glint::Shaders do
       end
 
       it "raises an error if the program fails to link" do
-        # The vertex shader's output doesn't match the fragment shader's input.
-        fragment_shader_source = <<-GLSL
+        # Missing `main()` in the vertex shader will cause the program to fail to link.
+        vertex_shader_source = <<-GLSL
         #version 450 core
         out vec4 color;
-        out vec4 pos;
-        void main() {
-          pos = vec4(0.0, 0.0, 0.0, 1.0);
-          color = vec4(1.0, 0.0, 0.0, 1.0);
-        }
+        out vec4 tint;
         GLSL
-        # expect do
-        gl_context.create_program(vertex_shader_source, fragment_shader_source)
-        # end.to raise_error(Glint::ProgramLinkError)
+        expect do
+          gl_context.create_program(vertex_shader_source, fragment_shader_source)
+        end.to raise_error(Glint::ProgramLinkError)
       end
     end
   end
