@@ -48,6 +48,11 @@ Spectator.describe Shader do
   end
 
   describe "#deleted?" do
+    it "returns false if the shader is not deleted" do
+      shader = Shader.new(gl_context, :vertex)
+      expect(shader.deleted?).to be_false
+    end
+
     it "returns true if the shader is deleted" do
       # To get into a deleted state, the shader must be in use when deleted.
       shader = Shader.new(gl_context, :vertex)
