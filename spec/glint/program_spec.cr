@@ -32,10 +32,10 @@ Spectator.describe Program do
 
   describe "#initialize" do
     it "sets the attributes" do
-      program = Program.new(gl_context)
+      program = Program.new(gl_context, 42)
       expect(program).to have_attributes(
         context: gl_context,
-        name: program.name,
+        name: 42,
       )
     end
   end
