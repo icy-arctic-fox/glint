@@ -12,18 +12,14 @@ module Glint
     include Contextual
     include TypeUtils
 
-    struct ShadersInterface
-      include Contextual
+    struct ShaderCollection
       include Enumerable(Shader)
-
-      getter context : Context
-      private getter name : LibGL::UInt
 
       def initialize(@context : Context, @name : LibGL::UInt)
       end
 
       def <<(shader : Shader) : self
-        gl.attach_shader(@name, shader.name)
+        @context.gl.attach_shader(@name, shader.name)
         self
       end
 
@@ -41,13 +37,13 @@ module Glint
 
       def size
         value = uninitialized LibGL::Int
-        gl.get_program_iv(@name, ProgramPName::AttachedShaders, pointerof(value))
+        @context.gl.get_program_iv(@name, ProgramPName::AttachedShaders, pointerof(value))
         value
       end
 
       private def names
         names = Slice(LibGL::UInt).new(size, read_only: true)
-        gl.get_attached_shaders(@name, size, Pointer(Int32).null, names.to_unsafe)
+        @context.gl.get_attached_shaders(@name, size, Pointer(Int32).null, names.to_unsafe)
         names
       end
     end
@@ -89,8 +85,8 @@ module Glint
       end
     end
 
-    def shaders : ShadersInterface
-      ShadersInterface.new(@context, @name)
+    def shaders : ShaderCollection
+      ShaderCollection.new(@context, @name)
     end
 
     def link : Bool
