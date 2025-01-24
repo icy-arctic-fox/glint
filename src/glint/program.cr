@@ -67,7 +67,7 @@ module Glint
       gl.without_error_checking &.is_program(@name) == LibGL::Boolean::True
     end
 
-    def delete
+    def delete : Nil
       gl.delete_program(@name)
     end
 
@@ -98,7 +98,7 @@ module Glint
       linked?
     end
 
-    def link!
+    def link! : Nil
       return if link
       raise ProgramLinkError.new(info_log)
     end
@@ -109,7 +109,7 @@ module Glint
       from_gl_bool(value)
     end
 
-    def info_log
+    def info_log : String
       length = info_log_length
       String.new(length) do |buffer|
         gl.get_program_info_log(@name, length, pointerof(length), buffer)

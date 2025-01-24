@@ -37,7 +37,7 @@ module Glint
       gl.without_error_checking &.is_shader(@name) == LibGL::Boolean::True
     end
 
-    def delete
+    def delete : Nil
       gl.delete_shader(@name)
     end
 
@@ -84,7 +84,7 @@ module Glint
       compiled?
     end
 
-    def compile!
+    def compile! : Nil
       return if compile
       raise ShaderCompilationError.new(info_log)
     end
@@ -95,7 +95,7 @@ module Glint
       from_gl_bool(value)
     end
 
-    def info_log
+    def info_log : String
       length = info_log_length
       String.new(length) do |buffer|
         gl.get_shader_info_log(@name, length, pointerof(length), buffer)
