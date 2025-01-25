@@ -32,6 +32,8 @@ module Glint
     def create_vertex_arrays(count : Int) : Indexable(VertexArray)
       VertexArray.create(self, count)
     end
+
+    protected abstract def gl
   end
 
   class Context
