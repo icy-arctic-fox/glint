@@ -14,8 +14,8 @@ Lint/UselessAssign:
   Excluded:
     - src/glint/context.cr
     - src/glint/shaders.cr
-    - src/glint/vertex_array_object.cr
-    - src/glint/vertex_array_objects.cr
+    - src/glint/vertex_array.cr
+    - src/glint/vertex_arrays.cr
   Enabled: true
   Severity: Warning
 
