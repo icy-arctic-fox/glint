@@ -15,7 +15,7 @@ void main() {
 GLSL
 
 Spectator.describe Shader do
-  let gl_context = TestOpenGLScaffold.context
+  let! gl_context = TestOpenGLScaffold.context
 
   describe "#initialize" do
     it "sets the attributes" do

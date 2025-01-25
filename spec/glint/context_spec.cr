@@ -1,10 +1,10 @@
 require "../spec_helper"
 
 Spectator.describe Glint::Context do
-  let gl_context = TestOpenGLScaffold.context
+  let! gl_context = TestOpenGLScaffold.context
 
   describe "#major_version" do
-    let version = gl_context.major_version
+    let! version = gl_context.major_version
 
     it "returns the major version" do
       expect(version).to eq(4)
@@ -12,7 +12,7 @@ Spectator.describe Glint::Context do
   end
 
   describe "#minor_version" do
-    let version = gl_context.minor_version
+    let! version = gl_context.minor_version
 
     it "returns the minor version" do
       expect(version).to be >= 5
@@ -20,7 +20,7 @@ Spectator.describe Glint::Context do
   end
 
   describe "#vendor" do
-    let vendor = gl_context.vendor
+    let! vendor = gl_context.vendor
 
     it "returns the vendor" do
       expect(vendor).to match(/Intel|NVIDIA|AMD|ATI|Mesa|Software|VMware|Radeon/i)
@@ -28,7 +28,7 @@ Spectator.describe Glint::Context do
   end
 
   describe "#renderer" do
-    let renderer = gl_context.renderer
+    let! renderer = gl_context.renderer
 
     it "returns the renderer" do
       expect(renderer).to match(/Intel|NVIDIA|AMD|ATI|Mesa|Software|LLVM|VMware|Radeon/i)
@@ -36,7 +36,7 @@ Spectator.describe Glint::Context do
   end
 
   describe "#version" do
-    let version = gl_context.version
+    let! version = gl_context.version
 
     it "returns the version" do
       expect(version).to match(/4\.[5-9]/)

@@ -1,10 +1,10 @@
 require "../spec_helper"
 
 Spectator.describe Glint::Shaders do
-  let gl_context = TestOpenGLScaffold.context
+  let! gl_context = TestOpenGLScaffold.context
 
   describe "#language_version" do
-    let version = gl_context.language_version
+    let! version = gl_context.language_version
 
     it "returns the language version" do
       expect(version).to match(/4.[5-9]0/)
@@ -62,8 +62,8 @@ Spectator.describe Glint::Shaders do
     end
 
     context "with shaders as arguments" do
-      let vertex_shader = gl_context.create_shader(:vertex)
-      let fragment_shader = gl_context.create_shader(:fragment)
+      let! vertex_shader = gl_context.create_shader(:vertex)
+      let! fragment_shader = gl_context.create_shader(:fragment)
 
       before do
         vertex_shader.source = <<-GLSL

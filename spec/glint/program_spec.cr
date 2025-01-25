@@ -3,10 +3,10 @@ require "../spec_helper"
 alias Program = Glint::Program
 
 Spectator.describe Program do
-  let gl_context = TestOpenGLScaffold.context
+  let! gl_context = TestOpenGLScaffold.context
 
-  let vertex_shader = Glint::Shader.new(gl_context, :vertex)
-  let fragment_shader = Glint::Shader.new(gl_context, :fragment)
+  let! vertex_shader = Glint::Shader.new(gl_context, :vertex)
+  let! fragment_shader = Glint::Shader.new(gl_context, :fragment)
 
   before do
     vertex_shader.source = <<-GLSL

@@ -3,7 +3,7 @@ require "../spec_helper"
 alias VAO = Glint::VertexArrayObject
 
 Spectator.describe VAO do
-  let gl_context = TestOpenGLScaffold.context
+  let! gl_context = TestOpenGLScaffold.context
 
   describe "#initialize" do
     it "sets the attributes" do
