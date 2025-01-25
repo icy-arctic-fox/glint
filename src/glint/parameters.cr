@@ -20,6 +20,7 @@ module Glint
     # The `glGet` procedure used would be `glGetIntegerv`.
     #
     # The supported types are `Int32`, `Int64`, `Float32`, `Float64`, `Bool`, and `String`.
+    # `UInt32` and `UInt64` are supported by casting from `Int32` and `Int64` respectively (unchecked cast).
     #
     # The boolean type `Bool` is adds a question mark to the method name.
     # For example, `gl_parameter blend : Bool = Blend` will create a method named `blend?`.
@@ -33,9 +34,12 @@ module Glint
           the parameter name must be assigned to the method name." if !param.value
 
         param_type = param.type.resolve
-        gl_proc = if param_type == Int32
+        gl_type = param_type
+        gl_proc = if param_type == Int32 || param_type == UInt32
+                    gl_type = Int32
                     "get_integer_v"
-                  elsif param_type == Int64
+                  elsif param_type == Int64 || param_type == UInt64
+                    gl_type = Int64
                     "get_integer64_v"
                   elsif param_type == Float32
                     "get_float_v"
@@ -47,7 +51,8 @@ module Glint
                     "get_string"
                   else
                     raise "Invalid OpenGL parameter declaration, \
-                      the parameter type must be one of: `Int32`, `Int64`, `Float32`, `Float64`, `Bool`, or `String`, \
+                      the parameter type must be one of: \
+                      `Int32`, `UInt32`, `Int64`, `UInt64`, `Float32`, `Float64`, `Bool`, or `String`, \
                       but got #{param_type}."
                   end
       %}
@@ -63,9 +68,13 @@ module Glint
           value == LibGL::Boolean::True
         {% else %}
           pname = LibGL::GetPName::{{param.value}}
-          value = uninitialized {{param.type}}
+          value = uninitialized {{gl_type}}
           gl.{{gl_proc.id}}(pname, pointerof(value))
-          value
+          {% if param_type == UInt32 || param_type == UInt64 %}
+            value.to_unsigned!
+          {% else %}
+            value
+          {% end %}
         {% end %}
       end
     end
