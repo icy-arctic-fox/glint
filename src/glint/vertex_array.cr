@@ -5,13 +5,13 @@ require "./parameters"
 require "./type_utils"
 
 module Glint
-  struct VertexArrayObject
+  struct VertexArray
     include Contextual
     include Parameters
     include TypeUtils
 
     struct Collection
-      include Indexable(VertexArrayObject)
+      include Indexable(VertexArray)
 
       protected def initialize(@context : Context, size : Int, & : Pointer(LibGL::UInt) ->)
         names = Pointer(LibGL::UInt).malloc(size)
@@ -25,7 +25,7 @@ module Glint
 
       def unsafe_fetch(index : Int)
         name = @names.unsafe_fetch(index)
-        VertexArrayObject.new(@context, name)
+        VertexArray.new(@context, name)
       end
 
       def delete : Nil
