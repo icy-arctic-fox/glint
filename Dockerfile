@@ -12,7 +12,7 @@ COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["glxinfo"]
 
-FROM crystallang/crystal:1.14-alpine AS spec-builder
+FROM crystallang/crystal:1.15-alpine AS spec-builder
 
 RUN apk add --no-cache \
   glfw-dev
