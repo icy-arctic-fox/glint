@@ -40,7 +40,12 @@ module Glint
     end
 
     def self.new(context : Context)
-      create(context)
+      vao = context.gl.create_vertex_arrays do |create_vertex_arrays|
+        name = uninitialized LibGL::UInt
+        create_vertex_arrays.call(1, pointerof(name))
+        new(context, name)
+      end
+      vao || generate(context)
     end
 
     def self.generate(context : Context) : self
