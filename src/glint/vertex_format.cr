@@ -61,6 +61,7 @@ module Glint
     end
 
     private def self.append(type : Tuple(*T).class, offset, attributes) : Nil forall T
+      # ameba:disable Naming/BlockParameterName
       {% unless T.type_vars.all? { |t| t == T.type_vars[0] }
            raise "All generic types of a Tuple must be the same when used in a vertex attribute (got #{T})"
          end %}

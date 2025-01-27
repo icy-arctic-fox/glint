@@ -26,6 +26,7 @@ Spectator.describe VertexAttributeType do
   } of VertexAttributeType => LibGL::VertexAttribType
 
   describe "#to_gl" do
+    # ameba:disable Naming/BlockParameterName
     enum_values.each do |vat, gl|
       it "converts #{vat} to #{gl}" do
         expect(vat.to_gl).to eq(gl)
